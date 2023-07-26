@@ -11,7 +11,7 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     rpm -ql epel-release
 
 # Install packages
-RUN microdnf -y install jq tar gzip siege bc glibc
+RUN microdnf -y install jq tar gzip siege bc glibc git findutils
 
 # Install oc and argo cd CLI
 RUN mkdir -p /tmp/oc &&\
