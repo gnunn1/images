@@ -5,7 +5,7 @@ FROM registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:${TKN_IMAGE_
 USER 0
 
 ARG ARGO_CD_CLI_VERSION=v2.7.2
-#ARG KUSTOMIZE_VERSION=v5.1.0
+ARG KUSTOMIZE_VERSION=v5.0.1
 
 # Install EPEL
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
@@ -26,11 +26,11 @@ RUN mkdir -p /tmp/oc &&\
     chmod +x /usr/local/bin/kubectl-argo-rollouts &&\
     rm -rf /tmp/oc &&\
     mkdir /.siege &&\
-    chmod 777 /.siege
-    # mkdir -p /tmp/kustomize &&\
-    # curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz -o /tmp/kustomize/kustomize.tar.gz &&\
-    # tar -xvf /tmp/kustomize/kustomize.tar.gz -C /tmp/kustomize &&\
-    # mv /tmp/kustomize/kustomize /usr/local/bin/kustomize
+    chmod 777 /.siege &&\
+    mkdir -p /tmp/kustomize &&\
+    curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz -o /tmp/kustomize/kustomize.tar.gz &&\
+    tar -xvf /tmp/kustomize/kustomize.tar.gz -C /tmp/kustomize &&\
+    mv /tmp/kustomize/kustomize /usr/local/bin/kustomize
 
 COPY siege.conf /.siege/siege.conf
 COPY ksuid /usr/local/bin/ksuid
