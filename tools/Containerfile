@@ -5,7 +5,8 @@ FROM registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:${TKN_IMAGE_
 USER 0
 
 ARG ARGO_CD_CLI_VERSION=v2.7.2
-ARG KUSTOMIZE_VERSION=v5.0.1
+ARG KUSTOMIZE_VERSION=v5.1.0
+ARG HELM_VERSION=v3.12.1
 
 # Install EPEL
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
@@ -30,7 +31,11 @@ RUN mkdir -p /tmp/oc &&\
     mkdir -p /tmp/kustomize &&\
     curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz -o /tmp/kustomize/kustomize.tar.gz &&\
     tar -xvf /tmp/kustomize/kustomize.tar.gz -C /tmp/kustomize &&\
-    mv /tmp/kustomize/kustomize /usr/local/bin/kustomize
+    mv /tmp/kustomize/kustomize /usr/local/bin/kustomize &&\
+    mkdir -p /tmp/helm &&\
+    curl -sSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -o /tmp/helm/helm.tar.gz &&\
+    tar -xvf /tmp/helm/helm.tar.gz -C /tmp/helm &&\
+    mv /tmp/helm/linux-amd64/helm /usr/local/bin/helm
 
 COPY siege.conf /.siege/siege.conf
 COPY ksuid /usr/local/bin/ksuid
