@@ -8,6 +8,7 @@ ARG ARGO_CD_CLI_VERSION=v2.7.2
 ARG KUSTOMIZE_VERSION=v5.1.0
 ARG HELM_VERSION=v3.12.1
 ARG POLICYGEN_VERSION=v1.12.2
+ARG ROLLOUTS_VERSION=v1.2.0
 
 # Install EPEL
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
@@ -24,7 +25,7 @@ RUN mkdir -p /tmp/oc &&\
     mv /tmp/oc/kubectl /usr/local/bin/kubectl &&\
     curl -sSL https://github.com/argoproj/argo-cd/releases/download/${ARGO_CD_CLI_VERSION}/argocd-linux-amd64 -o /usr/local/bin/argocd &&\
     chmod +x /usr/local/bin/argocd &&\
-    curl -sSL https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64 -o /usr/local/bin/kubectl-argo-rollouts &&\
+    curl -sSL https://github.com/argoproj/argo-rollouts/releases/v1.2.0/download/kubectl-argo-rollouts-linux-amd64 -o /usr/local/bin/kubectl-argo-rollouts &&\
     chmod +x /usr/local/bin/kubectl-argo-rollouts &&\
     rm -rf /tmp/oc &&\
     mkdir /.siege &&\
