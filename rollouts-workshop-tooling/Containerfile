@@ -1,0 +1,32 @@
+FROM registry.redhat.io/web-terminal/web-terminal-tooling-rhel8:1.8
+
+USER 0
+
+ARG ARGO_CD_CLI_VERSION=v2.8.2
+ARG KUSTOMIZE_VERSION=v5.1.0
+ARG ROLLOUTS_VERSION=v1.5.1
+ARG KUBECTL_NEAT=
+
+# Install EPEL
+# RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
+#     rpm -ql epel-release
+
+# Install packages
+# RUN microdnf -y install jq tar gzip siege bc glibc git findutils gettext
+
+# Install oc and argo cd CLI
+RUN mkdir -p /tmp/oc &&\
+    curl -sSL https://github.com/argoproj/argo-cd/releases/download/${ARGO_CD_CLI_VERSION}/argocd-linux-amd64 -o /usr/bin/argocd &&\
+    chmod +x /usr/bin/argocd &&\
+    curl -sSL https://github.com/argoproj/argo-rollouts/releases/download/${ROLLOUTS_VERSION}/kubectl-argo-rollouts-linux-amd64 -o /usr/bin/kubectl-argo-rollouts &&\
+    chmod +x /usr/bin/kubectl-argo-rollouts &&\
+    mkdir -p /tmp/neat &&\
+    curl -sSL https://github.com/itaysk/kubectl-neat/releases/download/v2.0.3/kubectl-neat_linux_amd64.tar.gz -o /tmp/neat/kubectl-neat.tar.gz &&\
+    tar -xvf /tmp/neat/kubectl-neat.tar.gz -C /tmp/neat &&\
+    mv /tmp/neat/kubectl-neat /usr/bin/kubectl-neat &&\
+    mkdir -p /tmp/kustomize &&\
+    curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz -o /tmp/kustomize/kustomize.tar.gz &&\
+    tar -xvf /tmp/kustomize/kustomize.tar.gz -C /tmp/kustomize &&\
+    mv /tmp/kustomize/kustomize /usr/bin/kustomize
+
+USER 1001
