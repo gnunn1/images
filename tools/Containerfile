@@ -1,14 +1,14 @@
-ARG TKN_IMAGE_VERSION=v1.11.0
+ARG TKN_IMAGE_VERSION=v1.11.3
 
 FROM registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:${TKN_IMAGE_VERSION}
 
 USER 0
 
-ARG ARGO_CD_CLI_VERSION=v2.7.2
+ARG ARGO_CD_CLI_VERSION=v2.9.2
 ARG KUSTOMIZE_VERSION=v5.1.0
 ARG HELM_VERSION=v3.12.1
 ARG POLICYGEN_VERSION=v1.12.2
-ARG ROLLOUTS_VERSION=v1.2.0
+ARG ROLLOUTS_VERSION=v1.6.0
 
 # Install EPEL
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
@@ -44,5 +44,6 @@ RUN mkdir -p /tmp/oc &&\
 
 COPY siege.conf /.siege/siege.conf
 COPY ksuid /usr/local/bin/ksuid
+COPY envsub /usr/local/bin/envsub
 
 USER 1001
