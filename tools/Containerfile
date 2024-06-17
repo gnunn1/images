@@ -40,7 +40,11 @@ RUN mkdir -p /tmp/oc &&\
     mv /tmp/helm/linux-amd64/helm /usr/local/bin/helm &&\
     mkdir -p /etc/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator &&\
     curl -sSSL https://github.com/open-cluster-management-io/policy-generator-plugin/releases/download/${POLICYGEN_VERSION}/linux-amd64-PolicyGenerator -o /etc/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator &&\
-    chmod +x /etc/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator
+    chmod +x /etc/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator &&\
+    mkdir -p /tmp/kubectl-neat &&\
+    curl -sSSL https://github.com/itaysk/kubectl-neat/releases/download/v2.0.3/kubectl-neat_linux_amd64.tar.gz -o /tmp/kubectl-neat/kubectl-neat.tar.gz &&\
+    tar -xvf /tmp/kubectl-neat/kubectl-neat.tar.gz -C /tmp/kubectl-neat &&\
+    mv /tmp/kubectl-neat/kubectl-neat /usr/local/bin/kubectl-neat
 
 COPY siege.conf /.siege/siege.conf
 COPY ksuid /usr/local/bin/ksuid
