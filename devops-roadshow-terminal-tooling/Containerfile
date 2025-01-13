@@ -1,8 +1,15 @@
+ARG TEKTON_VERSION=v1.15.2
+ARG COSIGN_VERSION=1.1.0
+
+FROM registry.redhat.io/rhtas/cosign-rhel9:${COSIGN_VERSION} AS cosign
+
+FROM registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:${TEKTON_VERSION} as tekton
+
 FROM quay.io/rhpds/openshift-showroom-terminal-ocp:latest
 
 USER 0
 
-ARG ARGO_CD_CLI_VERSION=v2.9.2
+ARG ARGO_CD_CLI_VERSION=v2.10.5
 ARG KUSTOMIZE_VERSION=v5.1.0
 ARG ROLLOUTS_VERSION=v1.6.4
 ARG KUBECTL_NEAT=
@@ -13,6 +20,13 @@ ARG KUBECTL_NEAT=
 
 # Install packages
 # RUN microdnf -y install jq tar gzip siege bc glibc git findutils gettext
+
+# Install cosign
+COPY --from=cosign /usr/local/bin/cosign /usr/local/bin
+
+# Install tekton
+COPY --from=tekton /usr/bin/tkn /usr/local/bin
+COPY --from=tekton /usr/bin/tkn-pac /usr/local/bin
 
 # Install oc and argo cd CLI
 RUN mkdir -p /tmp/oc &&\

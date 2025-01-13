@@ -1,4 +1,4 @@
-ARG TKN_IMAGE_VERSION=v1.14.3
+ARG TKN_IMAGE_VERSION=v1.15.2
 
 FROM registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:${TKN_IMAGE_VERSION}
 
@@ -19,7 +19,7 @@ RUN microdnf -y install jq tar gzip siege bc glibc git findutils gettext
 
 # Install oc and argo cd CLI
 RUN mkdir -p /tmp/oc &&\
-    curl https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz -o /tmp/oc/openshift-client-linux.tar.gz &&\
+    curl https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux-amd64-rhel8.tar.gz -o /tmp/oc/openshift-client-linux.tar.gz &&\
     tar -xvf /tmp/oc/openshift-client-linux.tar.gz -C /tmp/oc &&\
     mv /tmp/oc/oc /usr/local/bin/oc &&\
     mv /tmp/oc/kubectl /usr/local/bin/kubectl &&\

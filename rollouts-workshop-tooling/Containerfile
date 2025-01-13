@@ -1,4 +1,4 @@
-FROM registry.redhat.io/web-terminal/web-terminal-tooling-rhel8:1.8
+FROM quay.io/rhpds/openshift-showroom-terminal-ocp:latest
 
 USER 0
 
