@@ -1,14 +1,15 @@
-ARG TKN_IMAGE_VERSION=v1.15.2
+ARG TKN_IMAGE_VERSION=v1.17.1
 
 FROM registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:${TKN_IMAGE_VERSION}
 
 USER 0
 
-ARG ARGO_CD_CLI_VERSION=v2.10.5
+ARG ARGO_CD_CLI_VERSION=v2.14.0
 ARG KUSTOMIZE_VERSION=v5.2.1
 ARG HELM_VERSION=v3.14.0
 ARG POLICYGEN_VERSION=v1.12.2
-ARG ROLLOUTS_VERSION=v1.6.0
+ARG ROLLOUTS_VERSION=v1.7.0
+ARG ROX_CTL=4.7.4
 
 # Install EPEL
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
@@ -44,7 +45,11 @@ RUN mkdir -p /tmp/oc &&\
     mkdir -p /tmp/kubectl-neat &&\
     curl -sSSL https://github.com/itaysk/kubectl-neat/releases/download/v2.0.3/kubectl-neat_linux_amd64.tar.gz -o /tmp/kubectl-neat/kubectl-neat.tar.gz &&\
     tar -xvf /tmp/kubectl-neat/kubectl-neat.tar.gz -C /tmp/kubectl-neat &&\
-    mv /tmp/kubectl-neat/kubectl-neat /usr/local/bin/kubectl-neat
+    mv /tmp/kubectl-neat/kubectl-neat /usr/local/bin/kubectl-neat &&\
+    curl -sSSL https://github.com/mikefarah/yq/releases/download/v4.45.3/yq_linux_amd64 -o /usr/bin/yq &&\
+    chmod +x /usr/bin/yq &&\
+    curl -sSSL https://mirror.openshift.com/pub/rhacs/assets/${ROX_CTL}/bin/Linux/roxctl -o /usr/bin/roxctl &&\
+    chmod +x /usr/bin/roxctl
 
 COPY siege.conf /.siege/siege.conf
 COPY ksuid /usr/local/bin/ksuid
