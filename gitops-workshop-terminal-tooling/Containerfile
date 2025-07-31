@@ -7,6 +7,9 @@ ARG KUSTOMIZE_VERSION=v5.1.0
 ARG ROLLOUTS_VERSION=v1.6.4
 ARG KUBECTL_NEAT=v2.0.4
 
+# Install packages
+RUN dnf -y install tree
+
 # Install various CLI tools required by workshop
 RUN curl -sSL https://github.com/argoproj/argo-cd/releases/download/${ARGO_CD_CLI_VERSION}/argocd-linux-amd64 -o /usr/bin/argocd &&\
     chmod +x /usr/bin/argocd &&\
